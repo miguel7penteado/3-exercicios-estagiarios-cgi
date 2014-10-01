@@ -1,6 +1,10 @@
 
 
 # CGI no Linux com Apache  bash
+![](https://lh6.googleusercontent.com/-t29IhOVisE8/VCtpEmTZIaI/AAAAAAAAB30/VibT4zKosy8/w580-h269-no/apache_imagem.jpg)
+![](https://lh6.googleusercontent.com/ciJEGVH-vPMg1_515dawBa9SfoePqQOnkh_wxrNwWgE=s551-no)
+![](https://lh5.googleusercontent.com/-58LeMcMMocc/VCtqb2BanGI/AAAAAAAAB4Y/1KOqS16pe-8/w399-h291-no/mysql%5B1%5D.jpg)
+
 
 ## Preparando o SGBD e o esquema. 
 
