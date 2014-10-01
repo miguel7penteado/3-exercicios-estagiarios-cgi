@@ -11,11 +11,16 @@ Vamos cadastrar pessoas, portanto, vamos criar uma tabela de pessoas, com atribu
 id, nome e idade
 
 Tabela Pessoas
+
 | id 	| nome     	| idade 	|
 |----	|----------	|-------	|
 | 01 	| Fulano   	| 22    	|
 | 02 	| Ciclano  	| 25    	|
 | 03 	| Beltrano 	| 20    	|
+
+Por ultimo, vamos criar um usuário sem senha chamado script 
+sem necessidade de senha para acessar o esquema exercicio1 localmente, com todas as 
+permissões DDL e DML para as tabelas que estiverem dentro do esquema exercicio1.
 
 Para tanto, podemos utilizar o seguinte código em SQL:
 
@@ -30,6 +35,8 @@ CREATE TABLE pessoas
 	idade int(11) DEFAULT NULL,
 	PRIMARY KEY (id)
 );
+
+grant all on exercicio1.* to 'script'@'localhost';
 
 ```
 
@@ -54,9 +61,9 @@ Código de formulário.html
         <Form Method = "post" action = "cgi/inserir.sh">
                 Cadastro de Pessoas:<BR>
                 <BR>
-                id:        <Input Type="text" Name = "variavel1" size=20 value=""><BR>
-                nome:      <Input Type="text" Name = "variavel2" size=20 value=""><BR>
-                idade:     <Input Type="text" Name = "variavel3" size=20 value=""><BR>
+                id:        <Input Type="text" Name ="variavel1" size=20 value=""><BR>
+                nome:      <Input Type="text" Name ="variavel2" size=20 value=""><BR>
+                idade:     <Input Type="text" Name ="variavel3" size=20 value=""><BR>
                 <Input Type="submit" value="enviar">
         </Form>
 </body>
@@ -68,6 +75,29 @@ Como vamos utilizar o método POST, a estringue **QUERYSTRING** será lida a par
 entrada padrão **STDIN**, ou seja, como se a estringue que **chega via http** estivesse sendo 
 **digitada normalmente no teclado**.
 
+arquivo inserir.sh
+```bash
+#!/bin/bash
+
+entrada=""
+
+read entrada
+echo Content-type: text/html
+echo ""
+echo A estringue de esntrada eh: $entrada
+echo "<p>"
+
+# separando a string de entrada em variaveis e seus valores:
+parametro2=$(echo "$entrada" | awk -F'[=&]' '{print $2}')
+parametro4=$(echo "$entrada" | awk -F'[=&]' '{print $4}')
+parametro6=$(echo "$entrada" | awk -F'[=&]' '{print $6}')
+
+mysql --user=script -e 'insert into exercicio1.pessoas(id,nome,idade) values (${parametro2},"${parametro4}","${parametro6}");'
+
+echo "Registro inserido com sucesso..."
+mysql --user=script -H -e 'select * from exercicio1.pessoas where id= ${parametro2};'
+
+```
 
 
 **CGI** é um recurso normalmente pré-configurado ou fácil de ativar em **servidores WWW** como o **Apache**, mas no caso do **IIS7** da Microsoft que vem instalado 
